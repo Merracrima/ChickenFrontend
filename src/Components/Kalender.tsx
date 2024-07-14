@@ -15,6 +15,7 @@ const Monate = [
 export function Kalender() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [ansicht, setCurrentAnsicht] = useState(0); //0 ist Kalender, 1 ist Tabelle
+    const [prevState, setPrevState] = useState({ currentDate: new Date(), ansicht: 0 });
     const Wochentage = ["So","Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     let currentAnsicht;
 
@@ -43,9 +44,21 @@ export function Kalender() {
         if(!dialogRef.current){
             return;
         }
-        dialogRef.current.hasAttribute("open")
-            ? dialogRef.current.close()
-            : dialogRef.current.showModal();
+        if(dialogRef.current.hasAttribute("open")) {
+            dialogRef.current.close();
+            restoreState();
+        } else {
+            saveState();
+            dialogRef.current.showModal();
+        }
+    }
+    function saveState() {
+        setPrevState({ currentDate, ansicht });
+    }
+
+    function restoreState() {
+        setCurrentDate(prevState.currentDate);
+        setCurrentAnsicht(prevState.ansicht);
     }
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newDate = new Date(event.target.value);
@@ -54,6 +67,7 @@ export function Kalender() {
     };
 
     let list = [];
+    if(ansicht===0){
     for (let i = 1; i < month + 1; i++) {
         let date = numberToDate(i);
         let compDate = new Date();
@@ -63,12 +77,28 @@ export function Kalender() {
         else{
             list.push(<div className="calender-day" key={i} data-key={i} onClick={()=>setDialogDate(numberToDate(i))}>{Wochentage[date.getDay()]}, {i} </div>)
         }
+    }}
+    if(ansicht===1){
+        for (let i = 1; i < month + 1; i++) {
+            let date = numberToDate(i);
+           /* if() events in day, show events like this*/
+                list.push(<div className="table-day" data-key={i} onClick={()=>setDialogDate(numberToDate(i))}>{Wochentage[date.getDay()]}, {i}
+                <div className="event">Test</div></div>)
+
+        }
     }
 
-    if(ansicht === 0){
-        currentAnsicht = (<>
-            <div className="calendar-container">{list}</div>
-            <dialog ref={dialogRef}>
+    let type = [];
+    if(ansicht===0) {
+        type.push(<div className="calendar-container">{list}</div>)
+    }
+    if(ansicht===1){
+        type.push(<div>{list}</div>)
+    }
+
+    currentAnsicht = (<>
+        {type}
+    <dialog ref={dialogRef}>
                 <form className="content">
                     <h1>Ereignis hinzufügen</h1>
                     <table>
@@ -105,48 +135,6 @@ export function Kalender() {
             </dialog>
         </>)
         ;
-    }
-    if (ansicht === 1) {
-        currentAnsicht = (<>
-            <div className="calendar-container">{list}</div>
-            <dialog ref={dialogRef}>
-                <form className="content">
-                    <h1>Ereignis hinzufügen</h1>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><label htmlFor="event">Ereignis:</label></td>
-                            <td><select id="event">
-                                <option value="impfung">Impfung</option>
-                                <option value="kauf">Hühnerkauf</option>
-                                <option value="eierverkauf">Eierverkauf</option>
-                                <option value="geburtstag">Hühnergeburtstag</option>
-                            </select></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="date">Datum:</label></td>
-                            <td><input id="date" type="date" value={formatDateToISO(dialogDate)}
-                                       onChange={handleDateChange}/></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="cost">Kosten:</label></td>
-                            <td><input id="cost" type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button>Speichern</button>
-                            </td>
-                            <td>
-                                <button onClick={toggleDialog}>Abbrechen</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </dialog>
-        </>)
-        ;
-    }
 
     return (
         <>

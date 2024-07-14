@@ -1,11 +1,11 @@
-//import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/web";
 
 const PrivateRoute = ({ children }) => {
-    //const { keycloak } = useKeycloak();
+    const { keycloak } = useKeycloak();
 
-    //const isLoggedIn = keycloak.authenticated;
+    const isLoggedIn = keycloak.authenticated;
 
-    return children;//isLoggedIn ? children : null;
+    return isLoggedIn ? children : null;
 };
 
 export default PrivateRoute;
