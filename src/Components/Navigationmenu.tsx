@@ -3,6 +3,7 @@ import info from '../icons/info-circle.svg'
 import calendar from '../icons/calendar.svg'
 import sale from '../icons/money-square.svg'
 import account from '../icons/profile-circle.svg'
+import home from '../icons/home-simple.svg'
 import {useKeycloak} from "@react-keycloak/web";
 
 export function Navigationmenu() {
@@ -18,12 +19,13 @@ export function Navigationmenu() {
                     <table className="right">
                         <tbody>
                         <tr>
-                            <td>
+                            <td><a href={"/"}><input type={"image"} src={home} alt={"Hauptseite"}/></a></td>
+                            {!!keycloak.authenticated && (<td>
                                 <a href={"/kalender"}> <input type="image" src={calendar} alt="Verlauf"/></a>
-                            </td>
-                            <td>
+                            </td>)}
+                            {!!keycloak.authenticated && (<td>
                                 <div className="dropdown">
-                                    <input type="image" src={sale} alt="Sale"/>
+                                <input type="image" src={sale} alt="Sale"/>
                                     <div className="dropdown-content">
                                         <a href="#">Kunden</a>
                                         <a href="#">Einnahmen</a>
@@ -31,7 +33,7 @@ export function Navigationmenu() {
                                         <a href="#">Eingegangene Bestellungen</a>
                                     </div>
                                 </div>
-                            </td>
+                            </td>)}
                             <td>
                                 <div className="dropdown">
                                     <input type="image" src={account} alt="Account"/>
@@ -39,29 +41,14 @@ export function Navigationmenu() {
                                         <a href="#">Profil</a>
                                         <a href="#">Hühner</a>
                                         <a href="#">Eierbestand</a>
-                                        <a href="#">
-                                            Einstellungen</a>
+                                        {!!keycloak.authenticated && (<a href="/einstellungen">
+                                            Einstellungen</a>)}
                                         {!keycloak.authenticated && (
-                                            <button
-                                                type="button"
-                                                className="text-blue-800"
-                                                onClick={() => keycloak.login()}
-                                            >
-                                                Login
-                                            </button>
+                                            <a type="button" className="text-blue-800" onClick={() => keycloak.login()}>Login</a>
                                         )}
-
                                         {!!keycloak.authenticated && (
-                                            <button
-                                                type="button"
-                                                className="text-blue-800"
-                                                onClick={() => keycloak.logout()}
-                                            >
-                                                Logout
-                                            </button>
+                                            <a type="button" className="text-blue-800" onClick={() => keycloak.logout()}>Logout</a>
                                         )}
-                                        <a onClick={() => keycloak.logout()}>Abmelden</a>
-                                        <a onClick={() => keycloak.login()}>Anmelden</a>
                                     </div>
                                 </div>
                             </td>

@@ -1,24 +1,54 @@
+/*Variablen/Farbmodi*/
+:root {
+  --helleHauptfarbe: #3b3b3b;
+  --hellerAkzent: #adacac;
+  --dunklerAkzent: rgb(37, 37, 37);
+  --intensiverAkzent: #adacac;
+  --selectedFokus: rgb(132, 132, 132);
+  --kalenderHintergrund: rgba(73, 73, 73, 0.8);
+  --kalenderToday: #adacac;
+  --kalenderSelected: rgba(103, 103, 103, 0.7);
+  --inputColor: #5d5d5d;
+  --helleSchriftfarbe: white;
+  --dunkleSchriftFarbe: #a6a6a6;
+  --navbar: #adacac;
+  --buttonbackground: #adacac;
+  --today-Schriftfarbe: black;
+
+
+
+  --schatten: 0 8px 16px 0 rgba(0,0,0,0.2);
+  --hintergrundFarbe: rgb(37, 37, 37);
+  --contentPanelFarbe:  #3b3b3b;
+  --akzentFarbe:  #adacac;
+  --akzentHover: #969696;
+  --akzentSelected: #7f7f7f;
+  --contentElementFarbe: rgba(73, 73, 73, 0.8);
+  --contentElementHover: rgba(103, 103, 103, 0.7);
+  --schriftAufAkzent: black;
+  --schriftDefault: white;
+}
 /* Dropdown */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 .dropdown-content a {
-  color: black;
+  color: var(--schriftDefault);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   font-size: 2.5vh;
 }
 .dropdown-content a:hover {
-  background-color: rgba(255, 187, 44, 0.5);
+  background-color: var(--contentElementHover);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   right: 0;
-  background-color: cornsilk;
+  background-color: var(--contentElementFarbe);
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1;
@@ -37,10 +67,10 @@
   width: 100%;
   padding: 1vh;
   display: inline;
-  background-color: rgba(223,157,17,0.9);
+  background-color:var(--akzentFarbe);
   font-size: 25px;
-  box-shadow: 0 2px 50px #9E9A9A;
-  color: cornsilk;
+  box-shadow: var(--schatten);
+  color: var(--schriftAufAkzent);
 }
 .navigationMenu td {
   width: 33.33333vw;
@@ -61,12 +91,15 @@
   text-align: center;
 }
 .navigationMenu input:hover {
-  background: rgba(255, 187, 44, 0.5);
+  background: var(--akzentHover);
   border-radius: 10px;
   font-size: 2vh;
 }
 
 /* body */
+label{
+  color: var(--schriftDefault);
+}
 .right {
   float:right;
 }
@@ -74,21 +107,22 @@
   float:left;
 }
 body {
-  background-color: rgba(255, 187, 44, 0.5);
+  background-color: var(--hintergrundFarbe);
   font-family: 'Arial', sans-serif;
   font-size: 2.5vh;
+  color: var(--schriftDefault);
 }
 
 /* content, used for texts, profiles */
 .content {
   margin: 5vh 5vh 0;
-  padding: 5vh;
-  background-color: cornsilk;
+  padding: 0px 40px 20px;
+  background-color: var(--contentPanelFarbe);
   border-radius: 25px;
   overflow: hidden;
 }
 .content h1 {
-  color: rgba(223,157,17);
+  color: var(--akzentFarbe);
   font-size: 5vh;
 }
 .content td {
@@ -111,19 +145,20 @@ body {
 
 /* forms */
 .content select {
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
+  background-color: var(--contentElementFarbe);
+  color: var(--schriftDefault);
   width: 100%;
 }
 .content select:focus {
-  outline: rgba(223,140,17);
+  outline: var(--akzentHover);
 }
 .content button {
-  background-color: rgba(223,157,17);
-  color: cornsilk;
+  background-color: var(--akzentFarbe);
+  color: var(--schriftAufAkzent);
   border: none;
   border-radius: 25px;
   padding: 10px 20px;
@@ -132,66 +167,69 @@ body {
   margin: 10px 10px 10px 0;
 }
 .content button:hover {
-  background: rgba(223,157,17,0.5);
+  background: var(--akzentHover);
 }
 .content input[type=image]:hover {
-  background: rgba(223,157,17, 0.5);
+  background: var(--contentElementHover);
   border-radius: 10px;
   font-size: 2vh;
 }
 .content select {
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
+  color: var(--schriftAufAkzent);
   width: 100%;
-  background-color: white;
+  background-color: var(--contentElementFarbe);
 }
 .content input[type=text] {
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
+  background-color: var(--contentElementFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
+  color: var(--schriftDefault);
   width: 100%;
 }
 .content input[type=text]:focus {
-  outline: rgba(223,140,17);
+  outline: var(--akzentHover);
 }
 .content input[type=date]{
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
+  background-color: var(--contentElementFarbe);
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
+  color: var(--schriftDefault);
   width: 100%;
 }
 .content input[type=date]:focus {
-  outline: rgba(223,140,17);
+  outline: var(--akzentHover);
 
 }
 .content input[type="number"]{
-  border: 2px solid rgba(223,157,17);
+  background-color: var(--contentElementFarbe);
+  border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
+  color: var(--schriftDefault);
   width: 100%;
 }
 .content input[type="number"]:focus {
-  outline: rgba(223,140,17);
+  outline: var(--akzentHover);
 }
 .content input[type=file]{
   font-size: 2.5vh;
   margin-left: 10px;
-  color: dimgray;
-
+  color: var(--schriftDefault);
+background-color: var(--contentElementFarbe);
 }
 
 .content label {
   font-size: 2.5vh;
-  color: rgba(223,157,17);
+  color: var(--akzentFarbe);
 }
 
 form > *{
@@ -200,25 +238,21 @@ form > *{
   align-items: center;
 }
 
-/** animation incoming*/
-.chicken-animation img {
-  border-radius: 0;
-}
-
 /* searchbar */
 .content input[type="search"]{
+  background-color: var(--contentElementFarbe);
   background-image: url('icons/search.svg');
   background-repeat: no-repeat;
   background-position: right center;
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 20px;
-  color: dimgray;
+  color: var(--schriftDefault);
   width: 100%;
   padding: 5px;
 }
 .content input[type="search"]:focus {
-  outline: rgba(223,140,17);
+  outline: var(--akzentHover);
 }
 .content input[type="search"]:not(:placeholder-shown) {
   background-image: none;
@@ -235,7 +269,7 @@ form > *{
   padding-right: 2vw;
 }
 .filter-box td input{
-  border: 2px solid rgba(223,157,17);
+  border: 2px solid var(--akzentFarbe);
   padding:10vw;
   position: absolute;
   opacity: 0;
@@ -249,11 +283,11 @@ form > *{
   left: 0;
   height: 30px;
   width: 100px;
-  background-color:rgba(223,157,17, 0.8);
+  background-color: var(--akzentFarbe);
   border-radius: 1vw;
   font-size: 13px;
   text-align: center;
-  color:cornsilk;
+  color:var(--schriftAufAkzent);
   padding:0.5vw;
 }
 .checkbox-container {
@@ -268,10 +302,10 @@ form > *{
   user-select: none;
 }
 .checkbox-container:hover input ~ .checkmark {
-  background-color: rgba(223,157,17,0.5);
+  background-color: var(--akzentHover);
 }
 .checkbox-container input:checked ~ .checkmark {
-  background-color: rgba(223,100,17);
+  background-color: var(--akzentSelected);
 }
 
 /* calendar */
@@ -284,11 +318,23 @@ form > *{
   width: auto;
   height: 100px;
   text-align: center;
-  background-color: rgba(223,157,17, 0.5);
+  background-color: var(--contentElementFarbe);
   border-radius: 10px;
   padding: 1vw;
   margin:5px;
-  color: cornsilk;
+  color: var(--schriftDefault);
+  cursor: pointer;
+  overflow-y: auto;
+}
+.table-day-today {
+  width: auto;
+  height: 100px;
+  text-align: center;
+  background-color: var(--akzentFarbe);
+  border-radius: 10px;
+  padding: 1vw;
+  margin:5px;
+  color: var(--schriftAufAkzent);
   cursor: pointer;
   overflow-y: auto;
 }
@@ -296,11 +342,11 @@ form > *{
   width: 100px;
   height: 100px;
   text-align: center;
-  background-color: rgba(223,157,17, 0.5);
+  background-color: var(--contentElementFarbe);
   border-radius: 10px;
   padding: 1vw;
   margin:5px;
-  color: cornsilk;
+  color: var(--schriftDefault);
   cursor: pointer;
   overflow-y: auto;
 }
@@ -308,19 +354,19 @@ form > *{
   width: 100px;
   height: 100px;
   text-align: center;
-  background-color: rgba(223,157,17, 0.8);
+  background-color: var(--akzentFarbe);
   border-radius: 10px;
   padding: 1vw;
   margin:5px;
-  color: cornsilk;
+  color: var(--schriftAufAkzent);
   cursor: pointer;
   overflow-y: auto;
 }
 .calender-day:hover {
-  background-color: rgba(223,157,17, 0.6);
+  background-color: var(--contentElementHover);
 }
 .calender-day-today:hover{
-  background-color: rgba(223,157,17, 0.9);
+  background-color: var(--akzentHover);
 }
 .event {
   height:20px;
@@ -329,11 +375,19 @@ form > *{
   border-radius: 5px;
   width:100%;
   background-color: blueviolet;
-  color:cornsilk;
+  color: white;
+}
+.kalenderleiste {
+  color: var(--schriftAufAkzent);
+  display: flex;
+  align-items: center;
+  background-color: var(--akzentFarbe);
+  border-radius: 15px;
+  padding: 5px;
 }
 /** dialog */
 dialog {
-  background-color: cornsilk;
+  background-color: var(--contentPanelFarbe);
   border-radius: 25px;
   overflow: hidden;
   position: fixed;
@@ -342,8 +396,8 @@ dialog {
   transform: translate(-50%, -50%);
   width: 600px;
   height: 400px;
-  box-shadow: #9E9A9A 0 2px 50px;
-  border: 2px solid rgba(223,157,17);
+  box-shadow: var(--schatten);
+  border: 2px solid var(--hintergrundFarbe);
   z-index: 1000;
 }
 

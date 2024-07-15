@@ -6,6 +6,8 @@ import calendar from "../icons/calendar.svg";
 import table from "../icons/table-rows.svg";
 import plus from  "../icons/plus.svg";
 import {Filtersuche} from "./Filtersuche";
+import foo from "../connection/Connector";
+import {useKeycloak} from "@react-keycloak/web";
 
 const Monate = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -19,6 +21,19 @@ export function Kalender() {
     const Wochentage = ["So","Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     let currentAnsicht;
 
+    const {keycloak} = useKeycloak();
+
+    fetch("https://chicken.onlyjosh.de/event_type", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${keycloak.token}`,
+            "Farmname": "Mark1"
+        }
+    }).then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.error(error);
+    });
     const [dialogDate, setDialogDate] = useState(new Date());
     const dialogRef = useRef<HTMLDialogElement>(null);
     const getDaysInMonth = (date: Date) => {
@@ -31,7 +46,11 @@ export function Kalender() {
             toggleDialog();
         }
     }, [dialogDate]);
-
+    useEffect(() => {
+        if (dialogRef.current) {
+            toggleDialog();
+        }
+    }, []);
     function numberToDate(number: number) {
         return new Date(currentDate.getFullYear(), currentDate.getMonth(), number);
     }
@@ -75,7 +94,10 @@ export function Kalender() {
             list.push(<div className="calender-day-today" key={i} data-key={i} onClick={()=> {setDialogDate(numberToDate(i))}}>Heute <br/> {Wochentage[date.getDay()]}, {i}</div>)
         }
         else{
-            list.push(<div className="calender-day" key={i} data-key={i} onClick={()=>setDialogDate(numberToDate(i))}>{Wochentage[date.getDay()]}, {i} </div>)
+            list.push(<div className="calender-day" key={i} data-key={i} onClick={()=>setDialogDate(numberToDate(i))}>
+                {Wochentage[date.getDay()]}, {i} <div className={"event"} />
+
+            </div>)
         }
     }}
     if(ansicht===1){
@@ -96,46 +118,7 @@ export function Kalender() {
         type.push(<div>{list}</div>)
     }
 
-    currentAnsicht = (<>
-        {type}
-    <dialog ref={dialogRef}>
-                <form className="content">
-                    <h1>Ereignis hinzufügen</h1>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td><label htmlFor="event">Ereignis:</label></td>
-                            <td><select id="event">
-                                <option value="impfung">Impfung</option>
-                                <option value="kauf">Hühnerkauf</option>
-                                <option value="eierverkauf">Eierverkauf</option>
-                                <option value="geburtstag">Hühnergeburtstag</option>
-                            </select></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="date">Datum:</label></td>
-                            <td><input id="date" type="date" value={formatDateToISO(dialogDate)}
-                                       onChange={handleDateChange}/></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="cost">Kosten:</label></td>
-                            <td><input id="cost" type="text"/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button>Speichern</button>
-                            </td>
-                            <td>
-                                <button onClick={toggleDialog}>Abbrechen</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </dialog>
-        </>)
-        ;
-
+    currentAnsicht = (<>{type}</>);
     return (
         <>
             <div className="content">
@@ -148,13 +131,7 @@ export function Kalender() {
             <Filtersuche filter={["filter1", "filter2"]}/>
             </div>
             <div className="content">
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "white",
-                borderRadius: "15px",
-                padding: "5px",
-            }}>
+            <div className="kalenderleiste" >
                 <div  style={{flexGrow: 0}}>
                     <label><input type="image" src={today} alt="Today" onClick={thisMonth} title="Heute"/></label>
                 </div>
@@ -166,9 +143,8 @@ export function Kalender() {
                 }}>
                     <label ><input type="image" src={leftArrow} alt="Previous" onClick={previousMonth} title="Voriger Monat"/></label>
                     <div style={{
-                        color:"rgb(223,157,17)",
                         textAlign: "center",
-                        minWidth: "20vw", // Stellen Sie sicher, dass dieser Container eine Mindestbreite hat, um den Inhalt zentriert zu halten
+                        minWidth: "20vw",
                     }}><b>{Monate[currentDate.getMonth()]} {currentDate.getFullYear()}</b></div>
                     <label className="center"><input type="image" src={rightArrow} alt="Next" onClick={nextMonth} title="Nächster Monat"/></label>
                 </div>
@@ -176,6 +152,42 @@ export function Kalender() {
                     <label><input type="image" src={plus} alt={"Neues Ereignis"} title={"Neues Ereignis"} onClick={()=>setDialogDate(new Date())}/></label>
                 </div>
             </div>
+                <dialog ref={dialogRef}>
+                    <form className="content">
+                        <h1>Ereignis hinzufügen</h1>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td><label htmlFor="event">Ereignis:</label></td>
+                                <td><select id="event">
+                                    {}
+                                    <option value="impfung">Impfung</option>
+                                    <option value="kauf">Hühnerkauf</option>
+                                    <option value="eierverkauf">Eierverkauf</option>
+                                    <option value="geburtstag">Hühnergeburtstag</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="date">Datum:</label></td>
+                                <td><input id="date" type="date" value={formatDateToISO(dialogDate)}
+                                           onChange={handleDateChange}/></td>
+                            </tr>
+                            <tr>
+                                <td><label htmlFor="cost">Kosten:</label></td>
+                                <td><input id="cost" type="text"/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" onClick={toggleDialog}>Speichern</button>
+                                </td>
+                                <td>
+                                    <button type="button" onClick={toggleDialog}>Abbrechen</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </dialog>
             {currentAnsicht}
         </div>
         </>
