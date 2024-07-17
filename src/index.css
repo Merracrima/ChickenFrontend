@@ -1,32 +1,35 @@
 /*Variablen/Farbmodi*/
 :root {
-  --helleHauptfarbe: #3b3b3b;
-  --hellerAkzent: #adacac;
-  --dunklerAkzent: rgb(37, 37, 37);
-  --intensiverAkzent: #adacac;
-  --selectedFokus: rgb(132, 132, 132);
-  --kalenderHintergrund: rgba(73, 73, 73, 0.8);
-  --kalenderToday: #adacac;
-  --kalenderSelected: rgba(103, 103, 103, 0.7);
-  --inputColor: #5d5d5d;
-  --helleSchriftfarbe: white;
-  --dunkleSchriftFarbe: #a6a6a6;
-  --navbar: #adacac;
-  --buttonbackground: #adacac;
-  --today-Schriftfarbe: black;
-
-
-
+  --header: white;
   --schatten: 0 8px 16px 0 rgba(0,0,0,0.2);
-  --hintergrundFarbe: rgb(37, 37, 37);
+  --hintergrundFarbe: rgba(37, 37, 37);
   --contentPanelFarbe:  #3b3b3b;
-  --akzentFarbe:  #adacac;
-  --akzentHover: #969696;
-  --akzentSelected: #7f7f7f;
-  --contentElementFarbe: rgba(73, 73, 73, 0.8);
-  --contentElementHover: rgba(103, 103, 103, 0.7);
-  --schriftAufAkzent: black;
+  --akzentFarbe: #806654;
+  --akzentHover: #765e4f;
+  --akzentSelected: #5f4b3e;
+  --contentElementFarbe: rgba(73, 73, 73);
+  --contentElementHover: rgb(68, 68, 68);
+  --schriftAufAkzent: #ffffff;
   --schriftDefault: white;
+  --colorScheme: dark;
+  --imageInputs: invert(1);
+  --inputFarbe: rgba(73, 73, 73);
+}
+[data-theme='light']{
+  --header: rgba(223,157,17,0.9);
+  --schatten: 0 2px 50px #9E9A9A;
+  --hintergrundFarbe: rgba(255, 187, 44, 0.5);
+  --contentPanelFarbe:  cornsilk;
+  --akzentFarbe: rgba(223,157,17,0.9);
+  --akzentHover: rgba(202, 137, 1, 0.9);
+  --akzentSelected: rgba(159, 112, 12, 0.9);
+  --contentElementFarbe: rgba(255, 187, 44, 0.5);
+  --contentElementHover: rgb(255, 207, 102);
+  --schriftAufAkzent: cornsilk;
+  --schriftDefault: black;
+  --colorScheme: light;
+  --imageInputs: invert(0);
+  --inputFarbe: white;
 }
 /* Dropdown */
 .dropdown {
@@ -41,14 +44,14 @@
   font-size: 2.5vh;
 }
 .dropdown-content a:hover {
-  background-color: var(--contentElementHover);
+  background-color: var(--contentElementFarbe);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   right: 0;
-  background-color: var(--contentElementFarbe);
+  background-color: var(--contentPanelFarbe);
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1;
@@ -97,6 +100,11 @@
 }
 
 /* body */
+
+::selection {
+  background: var(--akzentFarbe);
+  color: var(--schriftAufAkzent);
+}
 label{
   color: var(--schriftDefault);
 }
@@ -116,13 +124,13 @@ body {
 /* content, used for texts, profiles */
 .content {
   margin: 5vh 5vh 0;
-  padding: 0px 40px 20px;
+  padding: 0 40px 20px;
   background-color: var(--contentPanelFarbe);
   border-radius: 25px;
   overflow: hidden;
 }
 .content h1 {
-  color: var(--akzentFarbe);
+  color: var(--header);
   font-size: 5vh;
 }
 .content td {
@@ -145,6 +153,7 @@ body {
 
 /* forms */
 .content select {
+  color-scheme: var(--colorScheme);
   border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
@@ -152,6 +161,14 @@ body {
   background-color: var(--contentElementFarbe);
   color: var(--schriftDefault);
   width: 100%;
+}
+
+.content select option {
+  background-color: var(--contentElementFarbe);
+  color: var(--schriftDefault);
+}
+.content select option:hover {
+  background-color: var(--contentElementHover);
 }
 .content select:focus {
   outline: var(--akzentHover);
@@ -169,8 +186,11 @@ body {
 .content button:hover {
   background: var(--akzentHover);
 }
+.content input[type="image"]{
+  filter: var(--imageInputs);
+}
 .content input[type=image]:hover {
-  background: var(--contentElementHover);
+  background: var(--akzentHover);
   border-radius: 10px;
   font-size: 2vh;
 }
@@ -179,13 +199,13 @@ body {
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
-  color: var(--schriftAufAkzent);
+  color: var(--schriftDefault);
   width: 100%;
-  background-color: var(--contentElementFarbe);
+  background-color: var(--inputFarbe);
 }
 .content input[type=text] {
   border: 2px solid var(--akzentFarbe);
-  background-color: var(--contentElementFarbe);
+  background-color: var(--inputFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
   margin-left: 10px;
@@ -196,9 +216,10 @@ body {
   outline: var(--akzentHover);
 }
 .content input[type=date]{
+  color-scheme: var(--colorScheme);
   border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
-  background-color: var(--contentElementFarbe);
+  background-color: var(--inputFarbe);
   font-size: 2.5vh;
   margin-left: 10px;
   color: var(--schriftDefault);
@@ -209,7 +230,7 @@ body {
 
 }
 .content input[type="number"]{
-  background-color: var(--contentElementFarbe);
+  background-color: var(--inputFarbe);
   border: 2px solid var(--akzentFarbe);
   border-radius: 10px;
   font-size: 2.5vh;
@@ -224,12 +245,12 @@ body {
   font-size: 2.5vh;
   margin-left: 10px;
   color: var(--schriftDefault);
-background-color: var(--contentElementFarbe);
+background-color: var(--inputFarbe);
 }
 
 .content label {
   font-size: 2.5vh;
-  color: var(--akzentFarbe);
+  color: var(--schriftDefault);
 }
 
 form > *{
@@ -240,7 +261,7 @@ form > *{
 
 /* searchbar */
 .content input[type="search"]{
-  background-color: var(--contentElementFarbe);
+  background-color: var(--inputFarbe);
   background-image: url('icons/search.svg');
   background-repeat: no-repeat;
   background-position: right center;
@@ -317,7 +338,6 @@ form > *{
 .table-day {
   width: auto;
   height: 100px;
-  text-align: center;
   background-color: var(--contentElementFarbe);
   border-radius: 10px;
   padding: 1vw;
@@ -329,7 +349,6 @@ form > *{
 .table-day-today {
   width: auto;
   height: 100px;
-  text-align: center;
   background-color: var(--akzentFarbe);
   border-radius: 10px;
   padding: 1vw;
@@ -369,9 +388,10 @@ form > *{
   background-color: var(--akzentHover);
 }
 .event {
-  height:20px;
-  font-size: 15px;
+  min-height:20px;
+  font-size: 17px;
   margin-top: 5px;
+  padding-top: 3px;
   border-radius: 5px;
   width:100%;
   background-color: blueviolet;
@@ -386,13 +406,19 @@ form > *{
   padding: 5px;
 }
 /** dialog */
+#dialogheader{
+  background-color: var(--akzentFarbe);
+  cursor: move;
+  width: 100%;
+  border-radius: 25px;
+  height: 20px;
+}
 dialog {
   background-color: var(--contentPanelFarbe);
   border-radius: 25px;
   overflow: hidden;
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   transform: translate(-50%, -50%);
   width: 600px;
   height: 400px;
