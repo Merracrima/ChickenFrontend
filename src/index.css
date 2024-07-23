@@ -171,7 +171,7 @@ body {
   background-color: var(--contentElementHover);
 }
 .content select:focus {
-  outline: var(--akzentHover);
+  border-color: var(--akzentHover);
 }
 .content button {
   background-color: var(--akzentFarbe);
@@ -212,8 +212,22 @@ body {
   color: var(--schriftDefault);
   width: 100%;
 }
-.content input[type=text]:focus {
-  outline: var(--akzentHover);
+.content textarea{
+  border: 2px solid var(--akzentFarbe);
+  background-color: var(--inputFarbe);
+  border-radius: 10px;
+  font-size: 20px;
+  margin-left: 10px;
+  color: var(--schriftDefault);
+  width: 100%;
+  height: 100px;
+  resize: none;
+}
+.content textarea:focus {
+  border-color: var(--akzentHover);
+}
+.content input:focus {
+  border-color: var(--akzentHover);
 }
 .content input[type=date]{
   color-scheme: var(--colorScheme);
@@ -225,10 +239,6 @@ body {
   color: var(--schriftDefault);
   width: 100%;
 }
-.content input[type=date]:focus {
-  outline: var(--akzentHover);
-
-}
 .content input[type="number"]{
   background-color: var(--inputFarbe);
   border: 2px solid var(--akzentFarbe);
@@ -237,9 +247,6 @@ body {
   margin-left: 10px;
   color: var(--schriftDefault);
   width: 100%;
-}
-.content input[type="number"]:focus {
-  outline: var(--akzentHover);
 }
 .content input[type=file]{
   font-size: 2.5vh;
@@ -406,25 +413,21 @@ form > *{
   padding: 5px;
 }
 /** dialog */
-#dialogheader{
-  background-color: var(--akzentFarbe);
-  cursor: move;
-  width: 100%;
-  border-radius: 25px;
-  height: 20px;
-}
+
 dialog {
   background-color: var(--contentPanelFarbe);
   border-radius: 25px;
-  overflow: hidden;
-  top: 0;
-  left: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 600px;
   height: 400px;
   box-shadow: var(--schatten);
   border: 2px solid var(--hintergrundFarbe);
   z-index: 1000;
+  color-scheme: var(--colorScheme);
 }
 
 dialog[open] ~ * {
