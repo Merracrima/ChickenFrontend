@@ -146,12 +146,24 @@ export function Kalender() {
             let date = numberToDate(i);
             let compDate = new Date();
             if (date.getMonth() === compDate.getMonth() && date.getDate() === compDate.getDate() && date.getFullYear() === compDate.getFullYear()) {
-                list.push(<div className="calender-day-today" key={i} data-key={i} onClick={() => {
-                    setDialogDate(numberToDate(i))
-                }}>Heute <br/> {Wochentage[date.getDay()]}, {i}</div>)
-            } else {
-                let eventsInDay= [];
 
+                let eventsInDay= [];
+                {for (let ev of getEvents(date)) {
+                    eventsInDay.push(<div className={"event"} data-type={ev.type.name} onClick={(event) => {
+                        clickedEvent(i, event) //pass id
+                    }}>{ev.type.name}
+                    </div>)}}
+
+                list.push(<div className="calender-day-today" key={i} data-key={i}
+                               onClick={() => setDialogDate(numberToDate(i))}>
+                    Heute <br/>
+                    {Wochentage[date.getDay()]}, {i}
+                    {eventsInDay}
+                </div>)
+
+            } else {
+
+                let eventsInDay= [];
                 {for (let ev of getEvents(date)) {
                 eventsInDay.push(<div className={"event"} data-type={ev.type.name} onClick={(event) => {
                     clickedEvent(i, event) //pass id
@@ -163,6 +175,7 @@ export function Kalender() {
                     {Wochentage[date.getDay()]}, {i}
                     {eventsInDay}
                 </div>)
+
             }
         }
     }

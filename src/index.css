@@ -120,6 +120,22 @@ body {
   font-size: 2.5vh;
   color: var(--schriftDefault);
 }
+/* presentationgrid */
+.presentationgrid tr td{
+  border: 5px solid var(--contentElementFarbe);
+  border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  cursor: pointer;
+}
+.presentationgrid tr td:hover {
+  border-color: var(--contentElementHover);
+}
+.presentationgrid tr td farmListElement { /*funktioniert nicht*/
+  border-radius: 25px;
+  border: 2px solid var(--akzentFarbe);
+}
 
 /* content, used for texts, profiles */
 .content {

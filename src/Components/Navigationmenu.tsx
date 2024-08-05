@@ -39,7 +39,7 @@ export function Navigationmenu() {
                                     <input type="image" src={account} alt="Account"/>
                                     <div className="dropdown-content">
                                         <a href="#">Profil</a>
-                                        <a href="#">Hühner</a>
+                                        {!!keycloak.authenticated && <a href="/meineHuehner">Hühner</a>}
                                         <a href="#">Eierbestand</a>
                                         {!!keycloak.authenticated && (<a href="/einstellungen">
                                             Einstellungen</a>)}
