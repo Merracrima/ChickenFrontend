@@ -365,7 +365,7 @@ form > *{
   overflow-y: auto;
 }
 .calender-day {
-  width: 100px;
+  width: 105px;
   height: 100px;
   text-align: center;
   background-color: var(--contentElementFarbe);
@@ -377,7 +377,7 @@ form > *{
   overflow-y: auto;
 }
 .calender-day-today {
-  width: 100px;
+  width: 105px;
   height: 100px;
   text-align: center;
   background-color: var(--akzentFarbe);
@@ -396,6 +396,7 @@ form > *{
 }
 .event {
   min-height:20px;
+  word-break: break-word;
   font-size: 17px;
   margin-top: 5px;
   padding-top: 3px;

@@ -9,15 +9,30 @@ import {Filtersuche} from "./Filtersuche";
 import foo from "../connection/Connector";
 import {useKeycloak} from "@react-keycloak/web";
 const EventTypes = [
-    {id:1, name:"Impfung", content:(<><td><label htmlFor='impfstoff'>Impfstoff:</label></td><td><input type='text' id='impstoff'/></td>
+    {id:-1, name:"Sonstiges", content:(<></>)},
+    {id:-2, name:"Impfung", content:(<><td><label htmlFor='impfstoff'>Impfstoff:</label></td><td><input type='text' id='impstoff'/></td>
             <tr><td><label  htmlFor={"betroffen"}>Geimpfte Hühner:</label> </td><td><textarea id={"betroffen"}/></td></tr></>)},
-{id:2, name:"Hühnerkauf", content: (<></>)}
+    {id:-3, name:"Hühnerkauf", content: (<></>)}
 ]
 const Monate = [
     "Januar", "Februar", "März", "April", "Mai", "Juni",
     "Juli", "August", "September", "Oktober", "November", "Dezember"
 ];
-
+interface Event {
+    chicken_Farm: Object;
+    date: Date;
+    type: EventType;
+    cost: number;
+    description: string;
+    id: number;
+}
+interface EventType {
+    chicken_Farm: Object;
+    default_cost: number;
+    description: string;
+    id: number;
+    name: string;
+}
 export function Kalender() {
     //Variablen
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -26,11 +41,26 @@ export function Kalender() {
     const Wochentage = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
     const [currentEvent, setCurrentEvent] = useState({date: new Date(), type: "", cost: 0, new: true});
     const [dialogDate, setDialogDate] = useState(new Date());
+    const [monthEvents, setMonthEvents] = useState<Event[]>([]);
+    const [options, setOptions] = useState<ReactElement[]>([]);
+
     const dialogRef = useRef<HTMLDialogElement>(null);
     const {keycloak} = useKeycloak();
     let currentAnsicht;
 
-foo("GET", "/event/2024-7", "", keycloak.token);
+    //initalize Events
+    function getMonthEvents() {
+        foo("GET", "/event/" + formatDateToISO(currentDate).substring(0, 7), "", keycloak.token).then(value => {
+            setMonthEvents(value);
+            console.log(monthEvents);
+            return value;
+        });
+    }
+
+    useEffect(() => {
+        getMonthEvents();
+        getOptions();
+    }, [currentDate]);
 
     //Dialog
     const clickedEvent = (i: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -100,6 +130,16 @@ foo("GET", "/event/2024-7", "", keycloak.token);
 
 
     //Kalendertage
+    function getEvents(date: Date) {
+        let events: Event[] = [];
+        for (let event of monthEvents) {
+            if (event.date.toString() === formatDateToISO(date)) {
+                events.push(event);
+            }
+        }
+        return events;
+    }
+
     let list = [];
     if (ansicht === 0) {
         for (let i = 1; i < month + 1; i++) {
@@ -110,13 +150,18 @@ foo("GET", "/event/2024-7", "", keycloak.token);
                     setDialogDate(numberToDate(i))
                 }}>Heute <br/> {Wochentage[date.getDay()]}, {i}</div>)
             } else {
+                let eventsInDay= [];
+
+                {for (let ev of getEvents(date)) {
+                eventsInDay.push(<div className={"event"} data-type={ev.type.name} onClick={(event) => {
+                    clickedEvent(i, event) //pass id
+                }}>{ev.type.name}
+                </div>)}}
+
                 list.push(<div className="calender-day" key={i} data-key={i}
                                onClick={() => setDialogDate(numberToDate(i))}>
                     {Wochentage[date.getDay()]}, {i}
-                    <div className={"event"} data-type={"Hühnerkauf"} onClick={(event) => {
-                        clickedEvent(i, event)
-                    }}>Hühnerkauf
-                    </div>
+                    {eventsInDay}
                 </div>)
             }
         }
@@ -151,41 +196,6 @@ foo("GET", "/event/2024-7", "", keycloak.token);
 
     currentAnsicht = (<>{type}</>);
 
-    //Dialog drag
-    let el = document.getElementById("");
-    if (el != null) dragElement(el);
-
-    function dragElement(element: HTMLElement) {
-        var pos1, pos2, pos3: number, pos4 = 0;
-
-        element.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e: MouseEvent) {
-            e = e || window.event;
-            e.preventDefault();
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e: MouseEvent) {
-            e = e || window.event;
-            e.preventDefault();
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            element.style.top = (element.offsetTop - pos2) + "px";
-            element.style.left = (element.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
-
     //Event-types
     function getEventType(name:string){
         for(let i = 0; i<EventTypes.length; i++){
@@ -198,6 +208,21 @@ foo("GET", "/event/2024-7", "", keycloak.token);
     let eventType = getEventType(currentEvent.type);
     if(eventType === null) eventType = EventTypes[0];
 
+
+    //Options
+    function getOptions() {
+        let opt: ReactElement[] = [];
+        foo("GET", "/event_type", "", keycloak.token).then(value => {
+            console.log(value);
+            for (let evType of value) {
+                opt.push(<option id={evType.id} value={evType.name}>{evType.name}</option>);
+            }
+        });
+        for (let i = 0; i < EventTypes.length; i++) {
+            opt.push(<option id={EventTypes[i].id.toString()} value={EventTypes[i].name}>{EventTypes[i].name}</option>)
+        }
+        setOptions(opt);
+    }
 
     //Return (Leiste und Dialog)
     return (
@@ -235,18 +260,15 @@ foo("GET", "/event/2024-7", "", keycloak.token);
 
                 <dialog ref={dialogRef} id={"dialog"}>
                     <form className="content">
-                        {currentEvent.type == "" ? (<h1>Ereignis hinzufügen</h1>) : (
+                        {currentEvent.type === "" ? (<h1>Ereignis hinzufügen</h1>) : (
                             <h1>{currentEvent.type} bearbeiten</h1>)}
                         <table>
                             <tbody>
                             <tr>
-                                <td><label htmlFor="event">Ereignis:</label></td>
-                                <td><select id="event" value={currentEvent.type}
+                                <td><label htmlFor="eventSelect">Ereignis:</label></td>
+                                <td><select id="eventSelect" value={currentEvent.type}
                                             onChange={(e) => setCurrentEvent({...currentEvent, type: e.target.value})}>
-                                    <option value="Impfung">Impfung</option>
-                                    <option value="Hühnerkauf">Hühnerkauf</option>
-                                    <option value="Eierverkauf">Eierverkauf</option>
-                                    <option value="Hühnergeburtstag">Hühnergeburtstag</option>
+                                    {options}
                                 </select></td>
                             </tr>
                             <tr>
@@ -272,7 +294,7 @@ foo("GET", "/event/2024-7", "", keycloak.token);
                                                 "type": 1, //event type id
                                                 "date": formatDateToISO(dialogDate),//"2023-11-02",
                                                 "description": "description",
-                                            }),  keycloak.token)}
+                                            }),  keycloak.token).then(()=>getMonthEvents())}
                                         else{/** update**/}
                                         setCurrentEvent({date: new Date(), type: "", cost: 0, new:true})
 
@@ -286,7 +308,7 @@ foo("GET", "/event/2024-7", "", keycloak.token);
                                     }}>Abbrechen
                                     </button>
                                 </td>
-                                {currentEvent.new ===false && <td>
+                                {!currentEvent.new && <td>
                                     <button type={"button"} onClick={() => {
                                         toggleDialog();
                                         setCurrentEvent({date: new Date(), type: "", cost: 0, new:true})

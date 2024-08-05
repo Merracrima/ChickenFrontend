@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Navigationmenu} from './Components/Navigationmenu';
 import {Kalender} from "./Components/Kalender";
-import Home from "./Components/Home";
+import {Home} from "./Components/Home";
 import keycloak from "./Helpers/Keycloak";
 import PrivateRoute from "./Helpers/PrivateRoute";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
