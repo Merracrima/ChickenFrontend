@@ -31,6 +31,9 @@
   --imageInputs: invert(0);
   --inputFarbe: white;
 }
+tspan {
+  color: white;
+}
 /* Dropdown */
 .dropdown {
   position: relative;
@@ -121,18 +124,25 @@ body {
   color: var(--schriftDefault);
 }
 /* presentationgrid */
-.presentationgrid tr td{
+.presentationgrid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  border-collapse: collapse;
+  margin: 5vh 5vh 0;
+  display: grid;
+}
+.presentationgrid div{
   border: 5px solid var(--contentElementFarbe);
   border-radius: 25px;
   padding-left: 25px;
   padding-right: 25px;
   padding-bottom: 25px;
   cursor: pointer;
+  margin: 10px;
 }
-.presentationgrid tr td:hover {
+.presentationgrid div:hover {
   border-color: var(--contentElementHover);
 }
-.presentationgrid tr td farmListElement { /*funktioniert nicht*/
+.presentationgrid div farmListElement { /*funktioniert nicht*/
   border-radius: 25px;
   border: 2px solid var(--akzentFarbe);
 }
@@ -153,11 +163,25 @@ body {
   vertical-align: top;
 }
 
+.datatable {
+  width: 100%;
+  rules: rows;
+  frame: void;
+  border-collapse: collapse;
+}
+.datatable th{
+  background-color: var(--contentElementFarbe);
+}
+ .datatable th, .datatable td{
+  border: 3px solid var(--contentElementFarbe);
+   padding: 10px;
+}
+
 .content .chicken-list {
   width: 100%;
 }
 
-.content img {
+.chicken-list img {
   max-width: 500px;
   min-width: 40px;
   width: auto;
@@ -451,4 +475,22 @@ dialog[open] ~ * {
   pointer-events: none;
   opacity: 0.5;
   user-select: none;
+}
+/*Warning*/
+.warning{
+  background-color: var(--contentElementFarbe);
+  width: 100%;
+  border-radius: 25px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.warning input {
+  float:right;
+}
+.warning span{
+  font-weight: bold;
+}
+.warning:hover {
+  cursor: pointer;
+  background-color: var(--contentElementHover);
 }

@@ -1,5 +1,7 @@
 import {useKeycloak} from "@react-keycloak/web";
 import {useEffect, useState} from "react";
+import warning from "../icons/red-circle.svg";
+import close from "../icons/close.svg";
 export function Home(){
     const {keycloak} = useKeycloak();
     const [username, setUsername] =useState("");
@@ -17,22 +19,26 @@ export function Home(){
             <>
             <h1>Herzlich Willkommen, {username}!</h1>
             <br/> <br/>
-            <table>
-            <tbody className={"presentationgrid"}>
-            <tr>
-                <td>
+                <div className={"warning"}>Keine Benachrichtigungen vorhanden.</div>
+                <div className={"warning"}>
+                    <label><input type={"image"} src={close} alt={"schließen"} title={"Schließen"}/></label>
+                    <span>Eierbestellung!</span>
+                <br/>
+                    Aufgegeben am: 12.12.2023
+                    <br/>
+                    Kunde: Theodorus
+                </div>
+            <div className={"presentationgrid"}>
                     <div>
                         <h1>Anstehende Ereignisse</h1>
                         Es stehen keine Ereignisse in den nächsten 20 Tagen an.
                     </div>
-                </td>
-                <td><h1>Unbeantwortete Kaufanträge</h1>
-                    Es liegen keine unbeantworteten Kaufanträge vor.
-                </td>
-            </tr>
-            <tr>
-                <td><h1>Meine Hühner</h1></td>
-                <td><h1>Mitglieder meiner Ställe</h1>
+                <div><h1>Unbeantwortete Kaufanträge</h1>
+                    Es liegen keine unbeantworteten Kaufanträge vor.</div>
+                <div>
+         <h1>Meine Hühner</h1></div>
+                <div>
+               <h1>Mitglieder meiner Ställe</h1>
                     <b>Farm 1:</b>
                     <ul>
                         <li>Mitglied Theodorus</li>
@@ -45,10 +51,8 @@ export function Home(){
                         <li>Mitglied Esel</li>
                     </ul>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-            </table>
+                </div>
+            </div>
             </>) : (
             <>
                 <h1>Neu hier?</h1>
