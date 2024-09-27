@@ -9,6 +9,8 @@ import PrivateRoute from "./Helpers/PrivateRoute";
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import useLocalStorage from 'use-local-storage'
 import {Finanzstatistiken} from "./Components/Finanzstatistiken";
+import {Medikamentebuch} from "./Components/Medikamentebuch";
+import {Eierbestand} from "./Components/Eierbestand";
 
 function App() {
     const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -28,11 +30,15 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path={"/"} element={<Home/>}/>
+                        <Route path={"/medikamente"} element={
+                            <PrivateRoute><Medikamentebuch/></PrivateRoute>
+                        }/>
                         <Route path={"/finanzstatistik"} element={
                             <PrivateRoute>
                                 <Finanzstatistiken/>
                             </PrivateRoute>
                         }/>
+                        <Route path={ "/eierbestand"} element={ <PrivateRoute><Eierbestand/></PrivateRoute>}/>
                         <Route path="/kalender" element={
                             <PrivateRoute><Kalender/> </PrivateRoute>}/>
                         <Route path={"/meineHuehner"} element={

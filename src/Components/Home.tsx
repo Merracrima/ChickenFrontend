@@ -1,7 +1,9 @@
 import {useKeycloak} from "@react-keycloak/web";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import warning from "../icons/red-circle.svg";
 import close from "../icons/close.svg";
+import calendar from "../icons/calendar.svg";
+import plus from "../icons/plus.svg";
 export function Home(){
     const {keycloak} = useKeycloak();
     const [username, setUsername] =useState("");
@@ -17,8 +19,10 @@ export function Home(){
     <div className={"content"}>
         {keycloak.authenticated ? (
             <>
-            <h1>Herzlich Willkommen, {username}!</h1>
-            <br/> <br/>
+                <h1>Herzlich Willkommen, {username}!
+                    <label className="right"><input type="image" src={plus} title="Eier hinzufügen"
+                                                    alt="Eier hinzufügen"/></label></h1>
+                <br/> <br/>
                 <div className={"warning"}>Keine Benachrichtigungen vorhanden.</div>
                 <div className={"warning"}>
                     <label><input type={"image"} src={close} alt={"schließen"} title={"Schließen"}/></label>

@@ -39,9 +39,9 @@ export function Navigationmenu() {
                                     <input type={"image"} src={chicken} alt={"Hühner"} title={"Hühner"}/>
                                     <div className={"dropdown-content"}>
                                         {!!keycloak.authenticated && <a href="/meineHuehner">Hühner</a>}
-                                        <a href="#">Eierbestand</a>
+                                        <a href="/eierbestand">Eierbestand</a>
                                         <a href="#">Rassen & Eier-Eigenschaften</a>
-                                        <a href={"#"}>Ställe</a>
+                                        <a href={"/medikamente"}>Medikamente</a>
                                     </div>
                                 </div>
                             </td>)}

@@ -125,7 +125,7 @@ body {
 }
 /* presentationgrid */
 .presentationgrid {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   border-collapse: collapse;
   margin: 5vh 5vh 0;
   display: grid;
@@ -138,6 +138,7 @@ body {
   padding-bottom: 25px;
   cursor: pointer;
   margin: 10px;
+  word-break: break-word;
 }
 .presentationgrid div:hover {
   border-color: var(--contentElementHover);
@@ -378,9 +379,13 @@ form > *{
 
 /* calendar */
 .calendar-container {
-  display:grid;
+  justify-items: center;
+  justify-content: space-evenly;
+  display:flex;
+  flex-wrap: wrap;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   width:100%;
+  gap: 10px;
 }
 .table-day {
   width: auto;
